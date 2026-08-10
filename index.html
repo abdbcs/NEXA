@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXA 🤖</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .app {
+      width: 95%;
+      max-width: 900px;
+      height: 90vh;
+      background: white;
+      border-radius: 22px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    header {
+      padding: 20px;
+      background: #111827;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 45px;
+      height: 45px;
+      background: white;
+      color: #111827;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    header h1 {
+      font-size: 24px;
+    }
+
+    header p {
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    #chat {
+      flex: 1;
+      padding: 25px;
+      overflow-y: auto;
+    }
+
+    .mensaje {
+      margin-bottom: 18px;
+      padding: 14px 17px;
+      border-radius: 16px;
+      max-width: 75%;
+      line-height: 1.5;
+    }
+
+    .nexa {
+      background: #eef2ff;
+      margin-right: auto;
+    }
+
+    .usuario {
+      background: #111827;
+      color: white;
+      margin-left: auto;
+    }
+
+    .entrada {
+      display: flex;
+      gap: 10px;
+      padding: 15px;
+      border-top: 1px solid #ddd;
+    }
+
+    input {
+      flex: 1;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 14px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    button {
+      border: none;
+      background: #111827;
+      color: white;
+      padding: 0 22px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <header>
+      <div class="logo">🤖</div>
+
+      <div>
+        <h1>NEXA</h1>
+        <p>Tu asistente inteligente</p>
+      </div>
+    </header>
+
+    <div id="chat">
+      <div class="mensaje nexa">
+        👋 ¡Hola! Soy <b>NEXA</b>.<br>
+        Estoy lista para ayudarte.
+      </div>
+    </div>
+
+    <div class="entrada">
+      <input
+        id="mensaje"
+        type="text"
+        placeholder="Escribe algo..."
+        onkeydown="if(event.key === 'Enter') enviar()"
+      >
+
+      <button onclick="enviar()">Enviar</button>
+    </div>
+
+  </div>
+
+  <script>
+    function enviar() {
+
+      const input = document.getElementById("mensaje");
+      const chat = document.getElementById("chat");
+
+      const texto = input.value.trim();
+
+      if (texto === "") return;
+
+      const usuario = document.createElement("div");
+      usuario.className = "mensaje usuario";
+      usuario.textContent = texto;
+
+      chat.appendChild(usuario);
+
+      input.value = "";
+
+      setTimeout(() => {
+
+        const respuesta = document.createElement("div");
+        respuesta.className = "mensaje nexa";
+
+        respuesta.innerHTML =
+          "🤖 Soy NEXA. Recibí tu mensaje: <b>" +
+          texto +
+          "</b><br><br>" +
+          "🧠 Mi cerebro de IA todavía está en construcción.";
+
+        chat.appendChild(respuesta);
+
+        chat.scrollTop = chat.scrollHeight;
+
+      }, 500);
+    }
+  </script>
+
+</body>
+</html>
