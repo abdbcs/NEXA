@@ -498,6 +498,145 @@ function nuevoChat() {
 
 }
 
+<script>
+const respuestas = [
+  "Entendido. Estoy procesando tu mensaje. 🧠",
+  "Interesante. Déjame analizarlo...",
+  "Perfecto. Estoy aquí para ayudarte. ✦",
+  "He recibido tu mensaje. Estoy pensando en la mejor respuesta.",
+  "Vamos a trabajar en eso juntos. 🤖"
+];
+
+function tecla(event) {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    enviar();
+  }
+}
+
+function enviar() {
+  const input = document.getElementById("input");
+  const texto = input.value.trim();
+
+  if (!texto) return;
+
+  const welcome = document.getElementById("welcome");
+
+  if (welcome) {
+    welcome.remove();
+  }
+
+  agregarMensaje("Tú", texto, true);
+
+  input.value = "";
+
+  mostrarPensando();
+}
+
+function mostrarPensando() {
+  const chat = document.getElementById("chat");
+
+  const pensando = document.createElement("div");
+  pensando.className = "message";
+  pensando.id = "pensando";
+
+  pensando.innerHTML = `
+    <div class="avatar">✦</div>
+    <div class="message-content">
+      <div class="label">NEXA</div>
+      <div>
+        <span>Analizando</span>
+        <span class="puntos">...</span>
+      </div>
+    </div>
+  `;
+
+  chat.appendChild(pensando);
+
+  chat.parentElement.scrollTop =
+    chat.parentElement.scrollHeight;
+
+  setTimeout(responder, 1400);
+}
+
+function responder() {
+  const pensando = document.getElementById("pensando");
+
+  if (pensando) {
+    pensando.remove();
+  }
+
+  const respuesta =
+    respuestas[Math.floor(Math.random() * respuestas.length)];
+
+  escribirRespuesta(respuesta);
+}
+
+function escribirRespuesta(texto) {
+  const chat = document.getElementById("chat");
+
+  const mensaje = document.createElement("div");
+  mensaje.className = "message";
+
+  mensaje.innerHTML = `
+    <div class="avatar">✦</div>
+    <div class="message-content">
+      <div class="label">NEXA</div>
+      <div id="texto-respuesta"></div>
+    </div>
+  `;
+
+  chat.appendChild(mensaje);
+
+  const destino =
+    mensaje.querySelector("#texto-respuesta");
+
+  let i = 0;
+
+  const intervalo = setInterval(() => {
+
+    destino.textContent += texto.charAt(i);
+
+    i++;
+
+    chat.parentElement.scrollTop =
+      chat.parentElement.scrollHeight;
+
+    if (i >= texto.length) {
+      clearInterval(intervalo);
+    }
+
+  }, 25);
+}
+
+function agregarMensaje(nombre, texto, usuario) {
+  const chat = document.getElementById("chat");
+
+  const mensaje = document.createElement("div");
+
+  mensaje.className =
+    "message " + (usuario ? "user" : "");
+
+  mensaje.innerHTML = `
+    <div class="avatar">
+      ${usuario ? "Tú" : "✦"}
+    </div>
+
+    <div class="message-content">
+      <div class="label">${nombre}</div>
+      <div>${texto}</div>
+    </div>
+  `;
+
+  chat.appendChild(mensaje);
+
+  chat.parentElement.scrollTop =
+    chat.parentElement.scrollHeight;
+}
+
+function nuevoChat() {
+  location.reload();
+}
 </script>
 
 </body>
